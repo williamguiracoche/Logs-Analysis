@@ -22,7 +22,7 @@ import psycopg2
 def popular_articles():
   db = psycopg2.connect("dbname=news")
   cursor = db.cursor()
-  cursor.execute("select slug, count(*) as num from log, articles where log.path like '%' || articles.slug group by slug order by num desc limit 3;")
+  cursor.execute("select title, count(*) as num from log, articles where log.path like '%' || articles.slug group by title order by num desc limit 3;")
   results = cursor.fetchall()
   db.close()
   return results
