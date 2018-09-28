@@ -25,6 +25,8 @@ def popular_articles():
   cursor.execute("select title, count(*) as num from log, articles where log.path like '%' || articles.slug group by title order by num desc limit 3;")
   results = cursor.fetchall()
   db.close()
-  return results
+  print 'Most Popular Articles:'
+  for title, views in results:
+      print title + ' -- ' + str(views)  + ' views'
 
-print popular_articles()
+popular_articles()
