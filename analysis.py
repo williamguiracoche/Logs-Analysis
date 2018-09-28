@@ -22,7 +22,7 @@ import psycopg2
 def popular_articles():
   db = psycopg2.connect("dbname=news")
   cursor = db.cursor()
-  cursor.execute("select path, count(*) as num from log where status = '200 OK' and not path = '/' group by path limit 3;")
+  cursor.execute("select path, count(*) as num from log where status = '200 OK' and not path = '/' group by path order by num desc limit 3;")
   results = cursor.fetchall()
   db.close()
   return results
