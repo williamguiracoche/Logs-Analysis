@@ -39,7 +39,8 @@ def popular_authors():
     (select author, path from articles, log
     where log.path like '%' || articles.slug) as subq
     group by author) as subq2, authors
-    where authors.id = subq2.author;
+    where authors.id = subq2.author
+    order by subq2.sum desc;
     ''')
   results = cursor.fetchall()
   print results
