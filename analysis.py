@@ -43,8 +43,10 @@ def popular_authors():
     order by subq2.sum desc;
     ''')
   results = cursor.fetchall()
-  print results
   db.close()
+  print 'Most Popular Authors:'
+  for name, views in results:
+      print name + ' -- ' + str(views)  + ' views'
 
 #popular_articles()
 popular_authors()
