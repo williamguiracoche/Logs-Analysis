@@ -33,7 +33,9 @@ def popular_articles():
 def popular_authors():
   db = psycopg2.connect("dbname=news")
   cursor = db.cursor()
-  cursor.execute('select * from articles;')
+  cursor.execute('''
+    select author, path from articles, log
+    where log.path like '%' || articles.slug;''')
   results = cursor.fetchall()
   print results
   db.close()
