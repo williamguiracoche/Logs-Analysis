@@ -48,5 +48,6 @@ def popular_authors():
   for name, views in results:
       print name + ' -- ' + str(views)  + ' views'
 
-#popular_articles()
+popular_articles()
+print '\n'
 popular_authors()
