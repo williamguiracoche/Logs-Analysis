@@ -34,11 +34,13 @@ def popular_authors():
   db = psycopg2.connect("dbname=news")
   cursor = db.cursor()
   cursor.execute('''
-    select author, path from articles, log
-    where log.path like '%' || articles.slug;''')
+    select author, count (*) from
+    (select author, path from articles, log
+    where log.path like '%' || articles.slug) as subq
+    group by author ''')
   results = cursor.fetchall()
   print results
   db.close()
 
-popular_articles()
+#popular_articles()
 popular_authors()
