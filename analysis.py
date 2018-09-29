@@ -29,4 +29,14 @@ def popular_articles():
   for title, views in results:
       print title + ' -- ' + str(views)  + ' views'
 
+
+def popular_authors():
+  db = psycopg2.connect("dbname=news")
+  cursor = db.cursor()
+  cursor.execute('select * from articles;')
+  results = cursor.fetchall()
+  print results
+  db.close()
+
 popular_articles()
+popular_authors()
