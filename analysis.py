@@ -48,6 +48,14 @@ def popular_authors():
   for name, views in results:
       print name + ' -- ' + str(views)  + ' views'
 
+def high_error():
+  db = psycopg2.connect("dbname=news")
+  cursor = db.cursor()
+  cursor.execute(";")
+  results = cursor.fetchall()
+  db.close()
+  print results
+
 popular_articles()
 print '\n'
 popular_authors()
