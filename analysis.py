@@ -66,7 +66,7 @@ def high_error():
     ),
 
     subq3 as (
-    select day, round(error * 100.0 / successful, 2) as percentage_error from subq2
+    select to_char(day, 'FMMonth DD, YYYY'), round(error * 100.0 / successful, 2) as percentage_error from subq2
     )
 
     select * from subq3
