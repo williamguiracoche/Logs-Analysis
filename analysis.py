@@ -79,8 +79,8 @@ def high_error():
       print 'Days with more than 1% errors:'
       print (day + ' -- ' + str(percentage) + '% errors')
 
-#popular_articles()
-#print '\n'
-#popular_authors()
-#print '\n'
+popular_articles()
+print '\n'
+popular_authors()
+print '\n'
 high_error()
