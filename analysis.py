@@ -52,8 +52,14 @@ def high_error():
   db = psycopg2.connect("dbname=news")
   cursor = db.cursor()
   cursor.execute('''
-    select count (*) as sum, date_trunc('day',time) as day,status from log
-    group by date_trunc('day', time), status;
+    with subq as (select count (*) as sum, date_trunc('day',time) as day,status from log
+    group by date_trunc('day', time), status)
+
+    select a.day, a.sum as successful , b.sum as error
+    from  subq as a, subq as b
+    where b.status = '404 NOT FOUND'
+    and not a.status = b.status
+    and a.day = b.day;
     ''')
   results = cursor.fetchall()
   db.close()
