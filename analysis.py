@@ -63,13 +63,21 @@ def high_error():
     where b.status = '404 NOT FOUND'
     and not a.status = b.status
     and a.day = b.day
+    ),
+
+    subq3 as (
+    select day, round(error * 100.0 / successful, 2) as percentage_error from subq2
     )
 
-    select day, round(error * 100.0 / successful, 2) as percentage_error from subq2;
+    select * from subq3
+    where percentage_error > 1;
+
     ''')
   results = cursor.fetchall()
   db.close()
-  for percentage, day in results
+  for day,percentage in results:
+      print day
+      print percentage
 
 #popular_articles()
 #print '\n'
