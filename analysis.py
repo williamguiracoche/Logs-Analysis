@@ -34,11 +34,17 @@ def popular_authors():
   db = psycopg2.connect("dbname=news")
   cursor = db.cursor()
   cursor.execute('''
-    select authors.name, subq2.sum from
-    (select author, count (*) as sum from
-    (select author, path from articles, log
-    where log.path like '%' || articles.slug) as subq
-    group by author) as subq2, authors
+    with subq as (
+    select author, path from articles, log
+    where log.path like '%' || articles.slug
+    ),
+
+    subq2 as (
+    select author, count (*) as sum from subq
+    group by author
+    )
+
+    select authors.name, subq2.sum from subq2, authors
     where authors.id = subq2.author
     order by subq2.sum desc;
     ''')
