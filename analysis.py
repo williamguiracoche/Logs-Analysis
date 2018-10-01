@@ -1,26 +1,10 @@
-'''
-Questions that must be answered:
-
-1. What are the most popular three articles of all time?
-Which articles have been accessed the most? Present this information as a
-sorted list with the most popular article at the top.
-
-
-2. Who are the most popular article authors of all time? That is, when you sum
-up all of the articles each author has written, which authors get the most
-page views? Present this as a sorted list with the most popular author at
-the top.
-
-3. On which days did more than 1% of requests lead to errors? The log table
-includes a column status that indicates the HTTP status code that the news
-site sent to the ugitser's browser.
-
-'''
-
 import psycopg2
 
 
 def popular_articles():
+    ''' Prints the titles of the top 3 articles that have been viewed the
+    most and how many views they each had.
+    '''
     db = psycopg2.connect("dbname=news")
     cursor = db.cursor()
     cursor.execute('''
@@ -38,6 +22,10 @@ def popular_articles():
 
 
 def popular_authors():
+    ''' Prints the names of the authors in order of whose articles have been
+    viewed the most. This answers, when you sum up all of the articles each
+    author has written, which authors get the most page views?
+    '''
     db = psycopg2.connect("dbname=news")
     cursor = db.cursor()
     cursor.execute('''
@@ -63,6 +51,10 @@ def popular_authors():
 
 
 def high_error():
+    '''Returns a list of which days had more than 1% of requests lead to errors
+    and what the percentage of error was.
+    '''
+
     db = psycopg2.connect("dbname=news")
     cursor = db.cursor()
     cursor.execute('''
