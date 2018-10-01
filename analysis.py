@@ -65,14 +65,14 @@ def high_error():
     and a.day = b.day
     )
 
-    select (error * 100.0 / successful) as percentage_error, day from subq2;
+    select round(error * 100.0 / successful, 2) as percentage_error, day from subq2;
     ''')
   results = cursor.fetchall()
   db.close()
   print results
 
 #popular_articles()
-print '\n'
+#print '\n'
 #popular_authors()
-print '\n'
+#print '\n'
 high_error()
