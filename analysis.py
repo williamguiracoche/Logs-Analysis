@@ -76,8 +76,8 @@ def high_error():
   results = cursor.fetchall()
   db.close()
   for day,percentage in results:
-      print day
-      print percentage
+      print 'Days with more than 1% errors:'
+      print (day + ' -- ' + str(percentage) + '% errors')
 
 #popular_articles()
 #print '\n'
