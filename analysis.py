@@ -19,27 +19,28 @@ site sent to the ugitser's browser.
 
 import psycopg2
 
+
 def popular_articles():
-  db = psycopg2.connect("dbname=news")
-  cursor = db.cursor()
-  cursor.execute('''
-  select title, count(*) as num from log, articles
-  where log.path like '%' || articles.slug
-  group by title
-  order by num desc
-  limit 3;
-  ''')
-  results = cursor.fetchall()
-  db.close()
-  print 'Most Popular Articles:'
-  for title, views in results:
-      print title + ' -- ' + str(views)  + ' views'
+    db = psycopg2.connect("dbname=news")
+    cursor = db.cursor()
+    cursor.execute('''
+    select title, count(*) as num from log, articles
+    where log.path like '%' || articles.slug
+    group by title
+    order by num desc
+    limit 3;
+    ''')
+    results = cursor.fetchall()
+    db.close()
+    print 'Most Popular Articles:'
+    for title, views in results:
+        print title + ' -- ' + str(views) + ' views'
 
 
 def popular_authors():
-  db = psycopg2.connect("dbname=news")
-  cursor = db.cursor()
-  cursor.execute('''
+    db = psycopg2.connect("dbname=news")
+    cursor = db.cursor()
+    cursor.execute('''
     with subq as (
     select author, path from articles, log
     where log.path like '%' || articles.slug
@@ -54,16 +55,17 @@ def popular_authors():
     where authors.id = subq2.author
     order by subq2.sum desc;
     ''')
-  results = cursor.fetchall()
-  db.close()
-  print 'Most Popular Authors:'
-  for name, views in results:
-      print name + ' -- ' + str(views)  + ' views'
+    results = cursor.fetchall()
+    db.close()
+    print 'Most Popular Authors:'
+    for name, views in results:
+        print name + ' -- ' + str(views) + ' views'
+
 
 def high_error():
-  db = psycopg2.connect("dbname=news")
-  cursor = db.cursor()
-  cursor.execute('''
+    db = psycopg2.connect("dbname=news")
+    cursor = db.cursor()
+    cursor.execute('''
     with subq as (
     select count (*) as sum, date_trunc('day',time) as day,status from log
     group by date_trunc('day', time), status
@@ -78,18 +80,20 @@ def high_error():
     ),
 
     subq3 as (
-    select to_char(day, 'FMMonth DD, YYYY'), round(error * 100.0 / successful, 2) as percentage_error from subq2
+    select
+    to_char(day,'FMMonth DD, YYYY'), round(error * 100.0 / successful, 2)
+    as percentage_error from subq2
     )
 
     select * from subq3
     where percentage_error > 1;
 
     ''')
-  results = cursor.fetchall()
-  db.close()
-  for day,percentage in results:
-      print 'Days with more than 1% errors:'
-      print (day + ' -- ' + str(percentage) + '% errors')
+    results = cursor.fetchall()
+    db.close()
+    for day, percentage in results:
+        print 'Days with more than 1% errors:'
+        print (day + ' -- ' + str(percentage) + '% errors')
 
 popular_articles()
 print '\n'
