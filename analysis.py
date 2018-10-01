@@ -51,11 +51,16 @@ def popular_authors():
 def high_error():
   db = psycopg2.connect("dbname=news")
   cursor = db.cursor()
-  cursor.execute(";")
+  cursor.execute('''
+    select count (*), date_trunc('day',time),status from log
+    group by date_trunc('day', time), status;
+    ''')
   results = cursor.fetchall()
   db.close()
   print results
 
-popular_articles()
+#popular_articles()
 print '\n'
-popular_authors()
+#popular_authors()
+print '\n'
+high_error()
